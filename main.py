@@ -1,4 +1,7 @@
 import random
+import csv
+import os
+from datetime import datetime
 
 MIN = 0
 MAX = 3
@@ -8,6 +11,8 @@ def main_loop():
     game_running = True
     user_wins = 0
     computer_wins = 0
+    filename = "stat.csv"
+    current_datetime = str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     
     while game_running:
         prompt = f"\nPlease choose a number between {MIN} and {MAX}:"
@@ -29,16 +34,48 @@ def main_loop():
                 print(f"Your guess is greater than {MAX}. Please try again.")
                 continue
             elif int(user_guess) == computer_generated_number:
-                print("That is the correct number! You win!")
+                winner = "USER"
                 user_wins += 1
+                
+                print("That is the correct number! You win!")
+                
+                if os.path.exists(filename):
+                    with open(filename, 'a', newline='') as csvfile:
+                        writer = csv.writer(csvfile)
+                        writer.writerow([current_datetime, winner, 
+                                        computer_generated_number ])
+                else:
+                    with open(filename, 'w', newline='') as csvfile:
+                        writer = csv.writer(csvfile)
+                        writer.writerow(['DATE_TIME', 'WINNER', 
+                                'WINNING_NUM(computer gen random number)'])
+                        writer.writerow([current_datetime, winner,
+                                        computer_generated_number])
+                        csvfile.close()
                 continue
             else:
-                print("That is not the correct number. You lose.")
+                winner = "COMPUTER"
                 computer_wins += 1
+                
+                print("That is not the correct number. You lose.")
+                
+                if os.path.exists(filename):
+                    with open(filename, 'a', newline='') as csvfile:
+                        writer = csv.writer(csvfile)
+                        writer.writerow([current_datetime, winner,
+                                        computer_generated_number])
+                else:
+                    with open(filename, 'w', newline='') as csvfile:
+                        writer = csv.writer(csvfile)
+                        writer.writerow(['DATE_TIME', 'WINNER', 
+                                'WINNING_NUM(computer gen random number)'])
+                        writer.writerow([current_datetime, winner,
+                                        computer_generated_number])
+                        csvfile.close()
                 continue
         else:
             print("That is not an integer. Please try again.")
             continue
-    
+
 if __name__ == '__main__':
     main_loop()  
