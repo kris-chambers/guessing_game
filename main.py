@@ -22,9 +22,26 @@ def main_loop():
         user_guess = input(prompt)
             
         if user_guess == "quit":
-            print("\nFinal Score")
-            print(f"User Wins: {user_wins}")
-            print(f"Computer Wins: {computer_wins}\n")
+            with open('stat.csv') as csvfile:
+                csv_reader = csv.reader(csvfile, delimiter=',')
+                total_user_wins = 0
+                total_computer_wins = 0
+                for row in csv_reader:
+                    if row[1] == "USER":
+                        total_user_wins +=1
+                    else:
+                        total_computer_wins += 1
+                winning_percentage = str((total_user_wins / total_computer_wins) 
+                                        * 100)        
+                print("\nFinal Score")
+                print(f"User Wins This Round: {user_wins}")
+                print(f"Computer Wins This Round: {computer_wins}\n")
+                print(f"User Wins Alltime: {total_user_wins}")
+                print(f"Computer Wins Alltime: {total_computer_wins}\n")
+                print(f"Your alltime winning percentage is {winning_percentage}%. ")
+                csvfile.close()
+            
+            
             game_running = False
         elif user_guess.isdigit():
             if int(user_guess) < MIN:
