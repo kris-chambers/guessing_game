@@ -31,14 +31,15 @@ def main_loop():
                         total_user_wins +=1
                     else:
                         total_computer_wins += 1
-                winning_percentage = str((total_user_wins / total_computer_wins) 
-                                        * 100)        
+                winning_percentage = round(((total_user_wins / 
+                                          total_computer_wins) * 100), 2)        
                 print("\nFinal Score")
                 print(f"User Wins This Round: {user_wins}")
                 print(f"Computer Wins This Round: {computer_wins}\n")
                 print(f"User Wins Alltime: {total_user_wins}")
                 print(f"Computer Wins Alltime: {total_computer_wins}\n")
-                print(f"Your alltime winning percentage is {winning_percentage}%. ")
+                print("Your alltime winning percentage is"\
+                                f" {winning_percentage}%. ")
                 csvfile.close()
             
             
